@@ -20,13 +20,13 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping("/")
-    @Operation(summary = "save", description = "")
+    @Operation(summary = "Guardar categoria")
     public ResponseEntity<SaveCategoryResponse> save(@RequestBody SaveCategoryRequest saveCategoryRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.save(saveCategoryRequest));
     }
 
     @GetMapping("/")
-    @Operation(summary = "getAllCategories", description = "")
+    @Operation(summary = "Listar categorias")
     public ResponseEntity<Page<CategoryResponse>> getAllCategories(@RequestParam Integer page,
                                                                    @RequestParam Integer size,
                                                                    @RequestParam boolean orderAsc) {

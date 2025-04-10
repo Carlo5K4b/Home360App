@@ -1,5 +1,6 @@
 package com.pragma.home360.domain.usecases;
 
+
 import com.pragma.home360.domain.exceptions.CategoryAlreadyExistsException;
 import com.pragma.home360.domain.models.CategoryModel;
 import com.pragma.home360.domain.ports.out.CategoryPersistencePort;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CategoryUseCaseTest {
 
@@ -29,38 +30,45 @@ class CategoryUseCaseTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-
     }
 
     @Test
-    void save() {
+    void testSaveCategorySuccessfully() {
+        CategoryModel categoryModel = new CategoryModel(1L, "category", "description");
+        when(categoryPersistencePort.getCategoryByName(categoryModel.getName())).thenReturn(null);
+
+        categoryUseCase.save(categoryModel);
+
+        verify(categoryPersistencePort, times(1)).save(categoryModel);
+    }
+
+    @Test
+    void testSaveCategoryAlreadyExists() {
         CategoryModel categoryModel = new CategoryModel(1L, "category", "description");
         when(categoryPersistencePort.getCategoryByName(categoryModel.getName())).thenReturn(categoryModel);
-        assertThrows(RuntimeException.class, () -> categoryUseCase.save(categoryModel));
 
+        assertThrows(CategoryAlreadyExistsException.class, () -> categoryUseCase.save(categoryModel));
+
+        verify(categoryPersistencePort, never()).save(categoryModel);
     }
 
     @Test
-    void getCategories() {
-        int  page = 0;
+    void testGetCategories() {
+        int page = 0;
         int size = 10;
         boolean orderAsc = true;
         long totalElements = 2;
 
         List<CategoryModel> categories = Arrays.asList(
                 new CategoryModel(1L, "category", "description"),
-                new CategoryModel(2L, "category2", "description2"));
-        Page<CategoryModel> myPages = new PageImpl<>(categories, PageRequest.of(page, size), totalElements);
-        when(categoryPersistencePort.getCategories(page, size, orderAsc)).thenReturn(myPages);
+                new CategoryModel(2L, "category2", "description2")
+        );
+        Page<CategoryModel> expectedPage = new PageImpl<>(categories, PageRequest.of(page, size), totalElements);
+        when(categoryPersistencePort.getCategories(page, size, orderAsc)).thenReturn(expectedPage);
 
-        Page<CategoryModel> result = categoryUseCase.getCategories(page, size,orderAsc);
-        assertEquals(myPages, result);
-    }
+        Page<CategoryModel> result = categoryUseCase.getCategories(page, size, orderAsc);
 
-    @Test
-    void saveCategoryAlreadyExists() {
-        CategoryModel categoryModel = new CategoryModel(1L, "category", "description");
-        when(categoryPersistencePort.getCategoryByName(categoryModel.getName())).thenReturn(categoryModel);
-        assertThrows(CategoryAlreadyExistsException.class, () -> categoryUseCase.save(categoryModel));
+        assertEquals(expectedPage, result);
+        verify(categoryPersistencePort, times(1)).getCategories(page, size, orderAsc);
     }
 }
