@@ -1,6 +1,6 @@
 package com.pragma.home360.app.services.impl;
 
-import com.pragma.home360.app.dto.request.SaveCategoryRequest;
+import com.pragma.home360.app.dto.request.CategoryRequest;
 import com.pragma.home360.app.dto.response.CategoryResponse;
 import com.pragma.home360.app.dto.response.SaveCategoryResponse;
 import com.pragma.home360.app.mappers.CategoryDtoMapper;
@@ -24,7 +24,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryDtoMapper categoryDtoMapper;
 
     @Override
-    public SaveCategoryResponse save(SaveCategoryRequest request) {
+    public SaveCategoryResponse save(CategoryRequest request) {
         categoryServicePort.save(categoryDtoMapper.requestToModel(request));
         return new SaveCategoryResponse(Constants.SAVE_CATEGORY_RESPONSE_MESSAGE, LocalDateTime.now());
     }

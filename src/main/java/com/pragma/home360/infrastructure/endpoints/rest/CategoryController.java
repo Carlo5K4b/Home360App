@@ -1,11 +1,10 @@
 package com.pragma.home360.infrastructure.endpoints.rest;
 
-import com.pragma.home360.app.dto.request.SaveCategoryRequest;
+import com.pragma.home360.app.dto.request.CategoryRequest;
 import com.pragma.home360.app.dto.response.CategoryResponse;
 import com.pragma.home360.app.dto.response.SaveCategoryResponse;
 import com.pragma.home360.app.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,8 +20,8 @@ public class CategoryController {
 
     @PostMapping("/")
     @Operation(summary = "Save category")
-    public ResponseEntity<SaveCategoryResponse> save(@RequestBody SaveCategoryRequest saveCategoryRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.save(saveCategoryRequest));
+    public ResponseEntity<SaveCategoryResponse> save(@Valid @RequestBody CategoryRequest categoryRequest) {
+        return new ResponseEntity<>(categoryService.save(categoryRequest), HttpStatus.CREATED);
     }
     @Operation(summary = "List categories")
     @GetMapping("/")

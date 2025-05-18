@@ -1,11 +1,10 @@
 package com.pragma.home360.app.mappers;
 
-import com.pragma.home360.app.dto.request.SaveCategoryRequest;
+import com.pragma.home360.app.dto.request.CategoryRequest;
 import com.pragma.home360.app.dto.response.CategoryResponse;
 import com.pragma.home360.domain.models.CategoryModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
 
 public interface CategoryDtoMapper {
 
-    CategoryModel requestToModel(SaveCategoryRequest saveCategoryRequest);
+    CategoryModel requestToModel(CategoryRequest categoryRequest);
 
     CategoryResponse modelToResponse(CategoryModel categoryModel);
 
