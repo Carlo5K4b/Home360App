@@ -1,0 +1,6 @@
+package com.pragma.home360.app.dto.response;
+
+import java.time.LocalDateTime;
+
+public record SaveLocationsResponse(String message, LocalDateTime time) {
+}

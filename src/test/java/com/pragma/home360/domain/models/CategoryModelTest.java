@@ -59,7 +59,7 @@ class CategoryModelTest {
         assertEquals("New Valid Description", category.getDescription());
     }
 
-    @Test
+ @Test
     void testSetDescriptionExceedsLimit() {
         CategoryModel category = new CategoryModel(1L, "Valid Name", "Valid Description");
         String longDescription = "A".repeat(91); // Descripción con 91 caracteres
@@ -67,5 +67,23 @@ class CategoryModelTest {
                 category.setDescription(longDescription)
         );
         assertEquals("Description exceeds maximum size of 90 characters", exception.getMessage());
+    }
+
+    @Test
+    void testSetNameNull() {
+        CategoryModel category = new CategoryModel(1L, "Valid Name", "Valid Description");
+        Exception exception = assertThrows(NullPointerException.class, () ->
+                category.setName(null)
+        );
+        assertEquals("Field 'name' can not be null", exception.getMessage());
+    }
+
+    @Test
+    void testSetDescriptionNull() {
+        CategoryModel category = new CategoryModel(1L, "Valid Name", "Valid Description");
+        Exception exception = assertThrows(NullPointerException.class, () ->
+                category.setDescription(null)
+        );
+        assertEquals("Field 'description' can not be null", exception.getMessage());
     }
 }

@@ -11,6 +11,4 @@ public final class ExceptionConstants {
     public static final String DESCRIPTION_MAX_SIZE_MESSAGE = "The description of the category can not exceed 90 characters";
     //indica que la categoría ya existe.
     public static final String CATEGORY_EXISTS_EXCEPTION = "The category already exists";
-    //indica que la Department ya existe.
-    public static final String DEPARTMENT_EXISTS_EXCEPTION = "The category already exists";
 }

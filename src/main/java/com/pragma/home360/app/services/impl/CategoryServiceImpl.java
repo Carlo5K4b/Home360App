@@ -31,6 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Page<CategoryResponse> getCategories(Integer page, Integer size, boolean orderAsc) {
+        //return categoryDtoMapper.modelListToResponseList(categoryServicePort.getCategories(page, size, orderAsc));
         Page<CategoryModel> categoryModelMyPages = categoryServicePort.getCategories(page, size, orderAsc);
         List<CategoryResponse> categoryResponses = categoryDtoMapper.modelListToResponseList(categoryModelMyPages.getContent());
         return new PageImpl<>(categoryResponses, PageRequest.of(page, size), categoryModelMyPages.getTotalElements());
